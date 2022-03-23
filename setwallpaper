@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# setwallpaper-dmenu by jornmann, original by speedie
+
+die() {
+	printf "%s\n" "$1"
+	exit 2
+}
+
+which feh > /dev/null || die "feh is not installed. Please install it."
+
+wallpaperdirectory="$HOME/.wallpapers"
+mkdir "$wallpaperdirectory" 2> /dev/null
+
+# I know, it's not clean, but it's the best I could do.
+# PRs welcome!
+wallpaper=$(ls -l "$wallpaperdirectory" | awk '{for(i=9;i<=NF;i++){printf "%s ", $i}; printf "\n"}' | tail -n +2 | dmenu -p wallpaper) || exit
+wallpaper=${wallpaper%?}
+
+scale=$(printf 'fill\ntile\ncenter\nscale\nmax' | dmenu -p scale) || exit
+
+if [[ $scale = "fill" ]]; then
+	scalecmd="--bg-fill"
+elif [[ $scale = "tile" ]]; then
+	scalecmd="--bg-tile"
+elif [[ $scale = "center" ]]; then
+	scalecmd="--bg-center"
+elif [[ $scale = "scale" ]]; then
+	scalecmd="--bg-scale"
+elif [[ $scale = "max" ]]; then
+	scalecmd="--bg-max"
+fi
+
+feh "$scalecmd" "$wallpaperdirectory"/"$wallpaper"
