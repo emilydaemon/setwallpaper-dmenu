@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # setwallpaper-dmenu by jornmann, original by speedie
 
