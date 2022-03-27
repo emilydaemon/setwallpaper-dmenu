@@ -19,16 +19,12 @@ wallpaper=${wallpaper%?}
 
 scale=$(printf 'fill\ntile\ncenter\nscale\nmax' | dmenu -p scale) || exit
 
-if [ "$scale" = "fill" ]; then
-	scalecmd="--bg-fill"
-elif [ "$scale" = "tile" ]; then
-	scalecmd="--bg-tile"
-elif [ "$scale" = "center" ]; then
-	scalecmd="--bg-center"
-elif [ "$scale" = "scale" ]; then
-	scalecmd="--bg-scale"
-elif [ "$scale" = "max" ]; then
-	scalecmd="--bg-max"
-fi
+case "$scale" in
+	"fill") scalecmd="--bg-fill" ;;
+	"tile") scalecmd="--bg-tile" ;;
+	"center") scalecmd="--bg-center" ;;
+	"scale") scalecmd="--bg-scale" ;;
+	"max") scalecmd="--bg-max" ;;
+esac
 
 feh "$scalecmd" "$wallpaperdirectory"/"$wallpaper"
