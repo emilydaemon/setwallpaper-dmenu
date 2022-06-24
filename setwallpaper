@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # setwallpaper-dmenu by jornmann, original by speedie
 
 die() {
@@ -12,10 +11,7 @@ which feh > /dev/null || die "feh is not installed. Please install it."
 wallpaperdirectory="$HOME/.wallpapers"
 mkdir "$wallpaperdirectory" 2> /dev/null
 
-# I know, it's not clean, but it's the best I could do.
-# PRs welcome!
-wallpaper=$(ls -l "$wallpaperdirectory" | awk '{for(i=9;i<=NF;i++){printf "%s ", $i}; printf "\n"}' | tail -n +2 | dmenu -p wallpaper) || exit
-wallpaper=${wallpaper%?}
+wallpaper="$(cd ${wallpaperdirectory} && find | tail -n +2 | cut -c 3- | dmenu -p wallpaper)" || exit
 
 scale=$(printf 'fill\ntile\ncenter\nscale\nmax' | dmenu -p scale) || exit
 
